@@ -62,14 +62,6 @@
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Web.Mobile" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="UTTT.Ejemplo.Persona.Control, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\UTTT.Ejemplo.Persona.Control\bin\Debug\UTTT.Ejemplo.Persona.Control.dll</HintPath>
-    </Reference>
-    <Reference Include="UTTT.Ejemplo.Persona.Data, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\UTTT.Ejemplo.Persona.Data\bin\Debug\UTTT.Ejemplo.Persona.Data.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="controlformato.css" />
@@ -179,6 +171,14 @@
     <ProjectReference Include="..\UTTT.Ejemplo.Linq.Data\UTTT.Ejemplo.Linq.Data.csproj">
       <Project>{96e7f921-1276-464b-8750-20d84a179b27}</Project>
       <Name>UTTT.Ejemplo.Linq.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UTTT.Ejemplo.Persona.Control\UTTT.Ejemplo.Persona.Control.csproj">
+      <Project>{c354bdcd-2821-467a-9104-a08a803b414f}</Project>
+      <Name>UTTT.Ejemplo.Persona.Control</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UTTT.Ejemplo.Persona.Data\UTTT.Ejemplo.Persona.Data.csproj">
+      <Project>{10213a66-aff1-433d-bc09-b5c76b3a339a}</Project>
+      <Name>UTTT.Ejemplo.Persona.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

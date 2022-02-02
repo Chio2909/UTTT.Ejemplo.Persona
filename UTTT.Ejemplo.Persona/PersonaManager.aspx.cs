@@ -150,6 +150,7 @@ namespace UTTT.Ejemplo.Persona
             }
             catch (Exception _e)
             {
+                this.showMessage("Ha ocurrido un error inesperado ya se ha notificado al Administrador, Verifica los datos ingresados");
 
                 MailMessage correo = new MailMessage();
                 correo.From = new MailAddress("19300623@uttt.edu.mx", "Error page", System.Text.Encoding.UTF8);//Correo de salida
@@ -163,11 +164,11 @@ namespace UTTT.Ejemplo.Persona
                 smtp.Port = 587; //Puerto de salida
                 smtp.Credentials = new System.Net.NetworkCredential("19300623@uttt.edu.mx", "MGD1630M");//Cuenta de correo
                 ServicePointManager.ServerCertificateValidationCallback = delegate (object s, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) { return true; };
-                smtp.EnableSsl = true;//True si el servidor de correo permite ssl
+                smtp.EnableSsl = true;//True si el servidor de correo permite ssl    
+                correo.Body = "Ha ocurrido un error en el sitio Persona " +_e.GetType().ToString() + _e.Message + _e.StackTrace;
+                smtp.Send(correo);
+
                 
-                
-                correo.Body = _e.StackTrace;
-                 smtp.Send(correo);
             }
         }
 
@@ -276,6 +277,11 @@ namespace UTTT.Ejemplo.Persona
             if (_persona.strAMaterno.Length > 50)
             {
                 _mensaje = "Sobrepasa los caracteres";
+                return false;
+            }
+            if (_persona.strClaveUnica.Length > 3)
+            {
+                _mensaje = "Sobrepasa los caracteres permitidos";
                 return false;
             }
             return true;

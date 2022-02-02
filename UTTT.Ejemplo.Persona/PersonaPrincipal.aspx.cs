@@ -171,7 +171,7 @@ namespace UTTT.Ejemplo.Persona
                     c => c.id == _idPersona);
                 dcDelete.GetTable<UTTT.Ejemplo.Linq.Data.Entity.Persona>().DeleteOnSubmit(persona);
                 dcDelete.SubmitChanges();
-                this.showMessage("El registro se agrego correctamente.");
+                this.showMessage("Se elimino correctamente.");
                 this.DataSourcePersona.RaiseViewChanged();                
             }
             catch (Exception _e)
@@ -199,5 +199,10 @@ namespace UTTT.Ejemplo.Persona
         }
 
         #endregion
+
+        protected void dgvPersonas_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
