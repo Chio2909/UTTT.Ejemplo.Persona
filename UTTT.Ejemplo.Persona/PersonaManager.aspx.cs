@@ -17,6 +17,8 @@ using System.Net.Mail;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
+using System.Windows.Forms;
+using System.ComponentModel;
 
 #endregion
 
@@ -150,7 +152,7 @@ namespace UTTT.Ejemplo.Persona
             }
             catch (Exception _e)
             {
-                this.showMessage("Ha ocurrido un error inesperado ya se ha notificado al Administrador, Verifica los datos ingresados");
+                this.Response.Redirect("~/ErrorPage.aspx", false);
 
                 MailMessage correo = new MailMessage();
                 correo.From = new MailAddress("19300623@uttt.edu.mx", "Error page", System.Text.Encoding.UTF8);//Correo de salida
@@ -172,14 +174,17 @@ namespace UTTT.Ejemplo.Persona
             }
         }
 
+        
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
             try
-            {              
-                this.Response.Redirect("~/PersonaPrincipal.aspx", false);
+            {
+               
+                this.Response.Redirect("~/PersonaPrincipal.aspx", true);
             }
             catch (Exception _e)
             {
+                
                 this.showMessage("Ha ocurrido un error inesperado");
             }
         }
@@ -229,9 +234,11 @@ namespace UTTT.Ejemplo.Persona
 
 
         #endregion
+   
 
-       public bool validacion(UTTT.Ejemplo.Linq.Data.Entity.Persona _persona, ref String _mensaje)
+            public bool validacion(UTTT.Ejemplo.Linq.Data.Entity.Persona _persona, ref String _mensaje)
         {
+
             if(_persona.idCatSexo == -1)
             {
                 _mensaje = "Seleccione masculino o femenino";
