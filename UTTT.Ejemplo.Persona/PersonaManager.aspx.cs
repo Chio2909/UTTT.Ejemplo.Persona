@@ -63,21 +63,22 @@ namespace UTTT.Ejemplo.Persona
                     {
                         this.session.Parametros.Add("baseEntity", this.baseEntity);
                     }
+                    //Sexo
                     List<CatSexo> lista = dcGlobal.GetTable<CatSexo>().ToList();
-                    CatSexo catTemp = new CatSexo();
-                    catTemp.id = -1;
-                    catTemp.strValor = "Seleccionar";
-                    lista.Insert(0, catTemp);
+
                     this.ddlSexo.DataTextField = "strValor";
                     this.ddlSexo.DataValueField = "id";
-                    this.ddlSexo.DataSource = lista;
-                    this.ddlSexo.DataBind();
-                    
 
-                    this.ddlSexo.SelectedIndexChanged += new EventHandler(ddlSexo_SelectedIndexChanged);
-                    this.ddlSexo.AutoPostBack = true;
+
                     if (this.idPersona == 0)
                     {
+                        CatSexo catTemp = new CatSexo();
+                        catTemp.id = -1;
+                        catTemp.strValor = "Seleccionar";
+                        lista.Insert(0, catTemp);
+                        this.ddlSexo.DataSource = lista;
+                        this.ddlSexo.DataBind();
+
                         this.lblAccion.Text = "Agregar";
                     }
                     else
@@ -88,9 +89,14 @@ namespace UTTT.Ejemplo.Persona
                         this.txtAMaterno.Text = this.baseEntity.strAMaterno;
                         this.txtClaveUnica.Text = this.baseEntity.strClaveUnica;
                         this.txtCURP.Text = this.baseEntity.strCurp;
+                        this.ddlSexo.DataSource = lista;
+                        this.ddlSexo.DataBind();
                         this.setItem(ref this.ddlSexo, baseEntity.CatSexo.strValor);
-                    }                
-                }
+                    }
+                
+                this.ddlSexo.SelectedIndexChanged += new EventHandler(ddlSexo_SelectedIndexChanged);
+                this.ddlSexo.AutoPostBack = false;
+            }
 
             }
             catch (Exception _e)
@@ -105,11 +111,13 @@ namespace UTTT.Ejemplo.Persona
         {
             try
             {
+               
 
                 if ( !Page.IsValid )
                 {
                     return;
                 }
+
                 DataContext dcGuardar = new DcGeneralDataContext();
                 UTTT.Ejemplo.Linq.Data.Entity.Persona persona = new Linq.Data.Entity.Persona();
                 if (this.idPersona == 0)
@@ -122,6 +130,7 @@ namespace UTTT.Ejemplo.Persona
                     persona.idCatSexo = int.Parse(this.ddlSexo.Text);
 
                     String mensaje = String.Empty;
+
                     //validacion de datos correctos desde codigo
                     if(!this.validacion(persona, ref mensaje))
                     {
@@ -134,7 +143,8 @@ namespace UTTT.Ejemplo.Persona
                     dcGuardar.SubmitChanges();
                     this.showMessage("El registro se agrego correctamente.");
                     this.Response.Redirect("~/PersonaPrincipal.aspx", false);
-                    
+
+                   
                 }
                 if (this.idPersona > 0)
                 {
@@ -197,7 +207,7 @@ namespace UTTT.Ejemplo.Persona
                 Expression<Func<CatSexo, bool>> predicateSexo = c => c.id == idSexo;
                 predicateSexo.Compile();
                 List<CatSexo> lista = dcGlobal.GetTable<CatSexo>().Where(predicateSexo).ToList();
-                CatSexo catTemp = new CatSexo();            
+                CatSexo catTemp = new CatSexo();
                 this.ddlSexo.DataTextField = "strValor";
                 this.ddlSexo.DataValueField = "id";
                 this.ddlSexo.DataSource = lista;
@@ -239,12 +249,14 @@ namespace UTTT.Ejemplo.Persona
             public bool validacion(UTTT.Ejemplo.Linq.Data.Entity.Persona _persona, ref String _mensaje)
         {
 
-            if(_persona.idCatSexo == -1)
+            if (_persona.idCatSexo == -1)
             {
-                _mensaje = "Seleccione masculino o femenino";
+                _mensaje = "Seleccione Campo 'Sexo' ";
                 return false;
             }
+
             int i = 0;
+
             //verificar si un texto es numero
             if(int.TryParse(_persona.strClaveUnica, out i)== false)
             {
