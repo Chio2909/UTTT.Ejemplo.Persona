@@ -204,5 +204,10 @@ namespace UTTT.Ejemplo.Persona
         {
 
         }
+
+        protected void dgvPersonas_SelectedIndexChanged1(object sender, EventArgs e)
+        {
+
+        }
     }
 }
