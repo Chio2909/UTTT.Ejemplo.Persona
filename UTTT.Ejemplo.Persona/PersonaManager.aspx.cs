@@ -63,40 +63,35 @@ namespace UTTT.Ejemplo.Persona
                     {
                         this.session.Parametros.Add("baseEntity", this.baseEntity);
                     }
-                    //Sexo
                     List<CatSexo> lista = dcGlobal.GetTable<CatSexo>().ToList();
-
+                    CatSexo catTemp = new CatSexo();
+                    catTemp.id = -1;
+                    catTemp.strValor = "Seleccionar";
+                    lista.Insert(0, catTemp);
                     this.ddlSexo.DataTextField = "strValor";
                     this.ddlSexo.DataValueField = "id";
+                    this.ddlSexo.DataSource = lista;
+                    this.ddlSexo.DataBind();
 
+                    this.ddlSexo.SelectedIndexChanged += new EventHandler(ddlSexo_SelectedIndexChanged);
+                    this.ddlSexo.AutoPostBack = false;
 
                     if (this.idPersona == 0)
                     {
-                        CatSexo catTemp = new CatSexo();
-                        catTemp.id = -1;
-                        catTemp.strValor = "Seleccionar";
-                        lista.Insert(0, catTemp);
-                        this.ddlSexo.DataSource = lista;
-                        this.ddlSexo.DataBind();
-
                         this.lblAccion.Text = "Agregar";
                     }
                     else
                     {
                         this.lblAccion.Text = "Editar";
                         this.txtNombre.Text = this.baseEntity.strNombre;
+                        this.txtCURP.Text = this.baseEntity.strCurp;
                         this.txtAPaterno.Text = this.baseEntity.strAPaterno;
                         this.txtAMaterno.Text = this.baseEntity.strAMaterno;
                         this.txtClaveUnica.Text = this.baseEntity.strClaveUnica;
-                        this.txtCURP.Text = this.baseEntity.strCurp;
-                        this.ddlSexo.DataSource = lista;
-                        this.ddlSexo.DataBind();
                         this.setItem(ref this.ddlSexo, baseEntity.CatSexo.strValor);
+
                     }
-                
-                this.ddlSexo.SelectedIndexChanged += new EventHandler(ddlSexo_SelectedIndexChanged);
-                this.ddlSexo.AutoPostBack = false;
-            }
+                }
 
             }
             catch (Exception _e)
@@ -111,9 +106,19 @@ namespace UTTT.Ejemplo.Persona
         {
             try
             {
-               
+                if (
+                     txtClaveUnica.Text == "" &&
+                    txtNombre.Text == "" &&
+                    txtAPaterno.Text == "" &&
+                    txtAMaterno.Text == "" && 
+                    ddlSexo.Text == "-1" && 
+                    txtCURP.Text == "")
+                {
+                    this.Response.Redirect("~/PersonaPrincipal.aspx", false);
+                }
 
-                if ( !Page.IsValid )
+                Page.Validate();
+                if (!Page.IsValid)
                 {
                     return;
                 }
@@ -123,41 +128,40 @@ namespace UTTT.Ejemplo.Persona
                 if (this.idPersona == 0)
                 {
                     persona.strClaveUnica = this.txtClaveUnica.Text.Trim();
+                    persona.strCurp = this.txtCURP.Text.Trim();
                     persona.strNombre = this.txtNombre.Text.Trim();
                     persona.strAMaterno = this.txtAMaterno.Text.Trim();
                     persona.strAPaterno = this.txtAPaterno.Text.Trim();
-                    persona.strCurp = this.txtCURP.Text.Trim();
                     persona.idCatSexo = int.Parse(this.ddlSexo.Text);
-
                     String mensaje = String.Empty;
-
-                    //validacion de datos correctos desde codigo
-                    if(!this.validacion(persona, ref mensaje))
+                    if (!this.validacion(persona, ref mensaje))
                     {
-                        this.lbMensaje.Text = mensaje;
-                        this.lbMensaje.Visible = true;
+                        this.lblmensaje.Text = mensaje;
+                        this.lblmensaje.Visible = true;
                         return;
                     }
-
                     dcGuardar.GetTable<UTTT.Ejemplo.Linq.Data.Entity.Persona>().InsertOnSubmit(persona);
                     dcGuardar.SubmitChanges();
                     this.showMessage("El registro se agrego correctamente.");
+
                     this.Response.Redirect("~/PersonaPrincipal.aspx", false);
 
-                   
+
+
                 }
                 if (this.idPersona > 0)
                 {
                     persona = dcGuardar.GetTable<UTTT.Ejemplo.Linq.Data.Entity.Persona>().First(c => c.id == idPersona);
                     persona.strClaveUnica = this.txtClaveUnica.Text.Trim();
                     persona.strNombre = this.txtNombre.Text.Trim();
+                    persona.strCurp = this.txtCURP.Text.Trim();
                     persona.strAMaterno = this.txtAMaterno.Text.Trim();
                     persona.strAPaterno = this.txtAPaterno.Text.Trim();
-                    persona.strCurp = this.txtCURP.Text.Trim();
                     persona.idCatSexo = int.Parse(this.ddlSexo.Text);
                     dcGuardar.SubmitChanges();
                     this.showMessage("El registro se edito correctamente.");
                     this.Response.Redirect("~/PersonaPrincipal.aspx", false);
+
                 }
             }
             catch (Exception _e)
@@ -177,24 +181,19 @@ namespace UTTT.Ejemplo.Persona
                 smtp.Credentials = new System.Net.NetworkCredential("19300623@uttt.edu.mx", "MGD1630M");//Cuenta de correo
                 ServicePointManager.ServerCertificateValidationCallback = delegate (object s, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) { return true; };
                 smtp.EnableSsl = true;//True si el servidor de correo permite ssl    
-                correo.Body = "Ha ocurrido un error en el sitio Persona " +_e.GetType().ToString() + _e.Message + _e.StackTrace;
+                correo.Body = "Ha ocurrido un error en el sitio Persona " + _e.GetType().ToString() + _e.Message + _e.StackTrace;
                 smtp.Send(correo);
-
-                
             }
         }
 
-        
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
             try
             {
-               
-                this.Response.Redirect("~/PersonaPrincipal.aspx", true);
+                this.Response.Redirect("~/PersonaPrincipal.aspx", false);
             }
             catch (Exception _e)
             {
-                
                 this.showMessage("Ha ocurrido un error inesperado");
             }
         }
@@ -219,11 +218,6 @@ namespace UTTT.Ejemplo.Persona
             }
         }
 
-        protected void txtClaveUnica_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         #endregion
 
         #region Metodos
@@ -241,70 +235,84 @@ namespace UTTT.Ejemplo.Persona
             _control.Items.FindByText(_value).Selected = true;
         }
 
-
-
         #endregion
-   
 
-            public bool validacion(UTTT.Ejemplo.Linq.Data.Entity.Persona _persona, ref String _mensaje)
+        protected void txtClaveUnica_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        public bool validacion(Linq.Data.Entity.Persona _persona, ref string _mensaje)
+        {
             if (_persona.idCatSexo == -1)
             {
-                _mensaje = "Seleccione Campo 'Sexo' ";
+                _mensaje = "Selecciona Masculino o Femenino";
                 return false;
             }
 
             int i = 0;
+            if (int.TryParse(_persona.strClaveUnica, out i) == false)
+            {
+                _mensaje = "La clave unica no es un numero";
+                return false;
+            }
 
-            //verificar si un texto es numero
-            if(int.TryParse(_persona.strClaveUnica, out i)== false)
+            if (int.Parse(_persona.strClaveUnica) < 100 && int.Parse(_persona.strClaveUnica) > 999)
             {
-                _mensaje = "La clave unica no es numero";
+                _mensaje = "La clave unica esta fuera de rango";
                 return false;
             }
-            if(int.Parse(_persona.strClaveUnica) <100 || int.Parse(_persona.strClaveUnica) > 999)
-            {
-                _mensaje = "La clave unica esta fuera del rango";
-                return false;
-            }
+
             if (_persona.strNombre.Equals(String.Empty))
             {
-                _mensaje = "Nombre esta vacio";
+                _mensaje = "El nombre esta vacio";
                 return false;
             }
-            if (_persona.strNombre.Length >50)
+
+            if (_persona.strNombre.Length > 50)
             {
-                _mensaje = "Sobrepasa los caracteres";
+                _mensaje = "El nombre sale del rango establecido de caracteres";
                 return false;
             }
+
             if (_persona.strAPaterno.Equals(String.Empty))
             {
-                _mensaje = "Campo vacio";
+                _mensaje = "El apelido paterno esta vacio";
                 return false;
             }
+
             if (_persona.strAPaterno.Length > 50)
             {
-                _mensaje = "Sobrepasa los caracteres";
+                _mensaje = "El apellido paterno sale del rango establecido de caracteres";
                 return false;
             }
+
             if (_persona.strAMaterno.Equals(String.Empty))
             {
-                _mensaje = "Campo vacio";
+                _mensaje = "El apelido materno esta vacio";
                 return false;
             }
+
             if (_persona.strAMaterno.Length > 50)
             {
-                _mensaje = "Sobrepasa los caracteres";
+                _mensaje = "El apellido materno sale del rango establecido de caracteres";
                 return false;
             }
-            if (_persona.strClaveUnica.Length > 3)
-            {
-                _mensaje = "Sobrepasa los caracteres permitidos";
-                return false;
-            }
-            return true;
 
+            if (_persona.strCurp.Equals(String.Empty))
+            {
+                _mensaje = "El CURP esta vacio";
+                return false;
+            }
+
+            if (_persona.strCurp.Length > 18)
+            {
+                _mensaje = "El CURP sale del rango establecido de caracteres";
+                return false;
+            }
+
+            return true;
         }
+
     }
 }

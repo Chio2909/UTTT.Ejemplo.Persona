@@ -54,6 +54,8 @@
                 <Columns>
                     <asp:BoundField DataField="strClaveUnica" HeaderText="Clave Unica" 
                         ReadOnly="True" SortExpression="strClaveUnica" />
+                    <asp:BoundField DataField="strCurp" HeaderText="Curp" 
+                        ReadOnly="True" SortExpression="strCurp" />
                     <asp:BoundField DataField="strNombre" HeaderText="Nombre" ReadOnly="True" 
                         SortExpression="strNombre" />
                     <asp:BoundField DataField="strAPaterno" HeaderText="APaterno" ReadOnly="True" 
@@ -102,7 +104,7 @@
     <asp:LinqDataSource ID="DataSourcePersona" runat="server" 
         ContextTypeName="UTTT.Ejemplo.Linq.Data.Entity.DcGeneralDataContext" 
         onselecting="DataSourcePersona_Selecting" 
-        Select="new (strNombre, strAPaterno, strAMaterno, CatSexo, strClaveUnica,id)" 
+        Select="new (strNombre, strCurp, strAPaterno, strAMaterno, CatSexo, strClaveUnica,id)" 
         TableName="Persona" EntityTypeName="">
     </asp:LinqDataSource>
     </form>
