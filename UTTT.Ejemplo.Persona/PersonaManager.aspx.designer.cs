@@ -42,22 +42,13 @@ namespace UTTT.Ejemplo.Persona
         protected global::System.Web.UI.WebControls.DropDownList ddlSexo;
 
         /// <summary>
-        /// Control rfvSexo.
+        /// Control rvSexo.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvSexo;
-
-        /// <summary>
-        /// Control rvClaveUnica.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RangeValidator rvClaveUnica;
+        protected global::System.Web.UI.WebControls.RangeValidator rvSexo;
 
         /// <summary>
         /// Control txtClaveUnica.
@@ -69,13 +60,13 @@ namespace UTTT.Ejemplo.Persona
         protected global::System.Web.UI.WebControls.TextBox txtClaveUnica;
 
         /// <summary>
-        /// Control rfvClaveUnica.
+        /// Control rfvClave.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvClaveUnica;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvClave;
 
         /// <summary>
         /// Control txtNombre.
@@ -132,15 +123,6 @@ namespace UTTT.Ejemplo.Persona
         protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvAMaterno;
 
         /// <summary>
-        /// Control revCurp.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RegularExpressionValidator revCurp;
-
-        /// <summary>
         /// Control txtCURP.
         /// </summary>
         /// <remarks>
@@ -159,13 +141,22 @@ namespace UTTT.Ejemplo.Persona
         protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvCurp;
 
         /// <summary>
-        /// Control lbMensaje.
+        /// Control revCURP.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbMensaje;
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator revCURP;
+
+        /// <summary>
+        /// Control lblmensaje.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblmensaje;
 
         /// <summary>
         /// Control btnAceptar.
