@@ -209,5 +209,17 @@ namespace UTTT.Ejemplo.Persona
         {
 
         }
+
+        protected void buscarTextBox(object sender, EventArgs e)
+        {
+            this.DataSourcePersona.RaiseViewChanged();
+        }
+
+        protected void onTxtNombreTextChange(object sender, EventArgs e)
+        {
+            this.DataSourcePersona.RaiseViewChanged();
+        }
+
+
+        }
     }
-}
